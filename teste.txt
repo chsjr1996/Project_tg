@@ -1,0 +1,10 @@
+
+// Outras cores
+// ADD HEADER COLOR #49a7cc;
+// ADD CARD BG COLOR #cfe7f1
+// ADD BG COLOR #99ddb4;
+
+Temas de cores
+
+// Pêssego
+#f3bd85 !important
