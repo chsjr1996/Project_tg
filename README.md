@@ -28,7 +28,7 @@ Semelhante ao **usuário**, porém com acesso ao paínel administrativo do proje
 
 ## Instalação
 
-1 - Usar o comando "git clone https://gitlab.com/chsjr1996/project_tg.git";
+1 - Usar o comando "git clone https://github.com/chsjr1996/project_tg.git";
 
 2 - Entre na linha de comando dentro do diretório criado **"project_tg"**;
 
