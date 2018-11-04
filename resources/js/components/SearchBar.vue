@@ -58,18 +58,15 @@
                 this.total   = 0;
                 this.visible = true
 
-                // if query have letters
-                if (this.query.length > 0) {
+                // Clear timeout
+                clearTimeout(this.timeout)
 
-                    // Clear timeout
-                    clearTimeout(this.timeout)
+                // Define 500ms timeout to prevent much requests
+                this.timeout = setTimeout(() => {
 
-                    // Define 500ms timeout to prevent much requests
-                    this.timeout = setTimeout(() => {
-
-                        // Disable loading tip
-                        this.loading = false
-
+                    // if query have letters
+                    if (this.query.length > 0) {
+                    
                         // Request profiles
                         window.axios.get('/profile/search/' + this.query)
                         .then(response => {
@@ -78,6 +75,7 @@
                             if (response.data.results.length > 0) {
                                 this.results = response.data.results;
                                 this.total   = response.data.total;
+                                this.loading = false;
                                 this.visible = true;
                             } else {
                                 this.results = [];
@@ -86,19 +84,18 @@
                             }
 
                         });
-
-                    }, 500);
-
-                } else {
-                    this.results = [];
-                    this.total   = 0;
-                    this.visible = false;
-                }
+                    } else {
+                        this.results = [];
+                        this.total   = 0;
+                        this.visible = false;
+                    }
+                }, 500);
             },
             exitSearch() {
                 setTimeout(() => {
                     this.results = [];
                     this.visible = false;
+                    this.query   = "";
                 }, 200);
             }
         }
