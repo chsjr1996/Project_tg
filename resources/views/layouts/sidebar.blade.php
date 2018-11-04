@@ -37,49 +37,62 @@
             <div class="row mt-3">
                 <div class="col-12">
                     
-                    <div class="row mb-2">
-                        <div class="col-3 pl-4 text-center">
-                            <i class="fa fa-book-open text-white"></i>
+                    @if ($view == 'profile')
+                        <div class="row mb-2">
+                            <div class="col-3 pl-4 text-center">
+                                <i class="fa fa-book-open text-white"></i>
+                            </div>
+                            <div class="col-9">
+                                <a href="" class="text-white">
+                                    {{ __('home.About') }}
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-9">
-                            <a href="" class="text-white">
-                                {{ __('home.About') }}
-                            </a>
-                        </div>
-                    </div>
 
-                    <div class="row mb-2">
-                        <div class="col-3 pl-4 text-center">
-                            <i class="fa fa-suitcase text-white"></i>
+                        <div class="row mb-2">
+                            <div class="col-3 pl-4 text-center">
+                                <i class="fa fa-suitcase text-white"></i>
+                            </div>
+                            <div class="col-9">
+                                <a href="" class="text-white">
+                                    {{ __('home.Experience') }}
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-9">
-                            <a href="" class="text-white">
-                                {{ __('home.Experience') }}
-                            </a>
-                        </div>
-                    </div>
 
-                    <div class="row mb-2">
-                        <div class="col-3 pl-4 text-center">
-                            <i class="fa fa-graduation-cap text-white"></i>
+                        <div class="row mb-2">
+                            <div class="col-3 pl-4 text-center">
+                                <i class="fa fa-graduation-cap text-white"></i>
+                            </div>
+                            <div class="col-9">
+                                <a href="" class="text-white">
+                                    {{ __('home.Education') }}
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-9">
-                            <a href="" class="text-white">
-                                {{ __('home.Education') }}
-                            </a>
-                        </div>
-                    </div>
 
-                    <div class="row mb-2">
-                        <div class="col-3 pl-4 text-center">
-                            <i class="fa fa-clipboard-check text-white"></i>
+                        <div class="row mb-2">
+                            <div class="col-3 pl-4 text-center">
+                                <i class="fa fa-clipboard-check text-white"></i>
+                            </div>
+                            <div class="col-9">
+                                <a href="" class="text-white">
+                                    {{ __('home.Skills') }}
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-9">
-                            <a href="" class="text-white">
-                                {{ __('home.Skills') }}
-                            </a>
+                    @else
+                        <div class="row mb-2">
+                            <div class="col-3 pl-4 text-center">
+                                <i class="fa fa-user-alt text-white"></i>
+                            </div>
+                            <div class="col-9">
+                                <a href="/profile" class="text-white">
+                                    {{ __('home.Profile') }}
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    @endif
 
                     <hr class="bg-white ml-3 mr-3">
                     
