@@ -3,6 +3,24 @@
 // All customizations must have the suffix ".custom-css"
 
 .custom-css {     
+    /* ######### GENERIC ######### */    
+    /* Bootstrap select */
+    &.bs-select {
+        button {
+            border: 1px solid #ced4da;
+            background: white;
+        }
+        .dropdown-menu {
+            a {
+                &.dropdown-item {
+                    &:hover {
+                        background: #b9b9b9;
+                    }
+                }
+            }
+        }
+    }
+
     /* Image profile */
     &.adjust-img-profile {
         width: 150px ;
@@ -38,23 +56,52 @@
         padding-left: 15%;
     }
 
-    /* Bootstrap select */
-    &.bs-select {
-        button {
-            border: 1px solid #ced4da;
-            background: white;
+    /* ######### HOME ######### */
+    /* Post card */
+    &.post-card {
+        
+        /* Post editor */
+        .post-editor {
+            .ql-toolbar {
+                display: none;
+            }
+
+            .ql-container {
+                border-top: 1px solid #ccc !important;
+            }
+
+            .ql-editor {
+                min-height: 80px;
+            }   
         }
-        .dropdown-menu {
-            a {
-                &.dropdown-item {
-                    &:hover {
-                        background: #b9b9b9;
-                    }
+
+        /* Action buttons */
+        .card-footer {
+            display: none;
+            p {
+                width: 50px;
+            }
+        }
+
+        /* Post editor on focus */
+        .focus {
+            .card-footer {
+                display: block;
+            }
+
+            .post-editor {
+                .ql-toolbar {
+                    display: block;
+                }
+                
+                .ql-container {
+                    border-top: 0 !important;
                 }
             }
         }
     }
 
+    /* ######### PROFILE ######### */
     /* Profile editor */
     &.modal-dialog {
         max-width: 800px;
