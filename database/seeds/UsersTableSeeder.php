@@ -2,9 +2,12 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use App\UsersTypeR;
 use Faker\Factory;
+use Illuminate\Support\Facades\Hash;
 
-class DatabaseSeeder extends Seeder
+
+class UsersTableSeeder extends Seeder
 {
     /**
      * @var \Faker\Generator
@@ -19,11 +22,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //
         $this->faker = Factory::create();
 
         // Create admin
         $this->createAdmin();
+
+        // Create users
+        $this->createUser();
     }
 
     /**
@@ -32,10 +37,15 @@ class DatabaseSeeder extends Seeder
      */
     private function createAdmin()
     {
-        User::create([
+        $user = User::create([
             'email'    => 'admin@project.com',
             'name'     => 'Admin',
-            'password' => bcrypt('123456')
+            'password' => Hash::make('123456')
+        ]);
+
+        UsersTypeR::create([
+            'user_id' => $user->id,
+            'user_type_id' => '1',
         ]);
     }
 
@@ -45,6 +55,19 @@ class DatabaseSeeder extends Seeder
      */
     private function createUser()
     {
+        foreach(range(1,100) as $index) {
+            $data = [
+                'name'           => $this->faker->name,
+                'email'          => $this->faker->unique()->safeEmail,
+                'password'       => Hash::make('secret')
+            ];
 
+            $user = User::create($data);
+
+            UsersTypeR::create([
+                'user_id' => $user->id,
+                'user_type_id' => '3',
+            ]);
+        }
     }
 }
