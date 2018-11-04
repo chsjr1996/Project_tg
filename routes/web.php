@@ -47,6 +47,9 @@ Route::prefix('profile')->group(function() {
     Route::get('loadSections/{id?}', 'ProfileController@loadSections');
     Route::put('update/section','ProfileController@updateSection');
 
+    // Search
+    Route::get('search/{query}', 'ProfileController@search');
+
 });
 
 // Users Routes

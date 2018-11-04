@@ -133,7 +133,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Update profile section.
      *
      * @return \Illuminate\Http\Response
      */
@@ -164,5 +164,39 @@ class ProfileController extends Controller
 
         // Return
         return response()->json('ok');
+    }
+
+    /**
+     * Search profiles
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function search($query)
+    {
+
+        $search   = [
+            ['name','like','%' . $query . '%'],
+            ['name', 'not like', 'Admin']
+        ];
+
+        $qResults = User::where($search)->count();
+
+        $results  = User::where($search)
+        ->limit(5)
+        ->orderBy('name')
+        ->get(
+            [
+                'id',
+                'name'
+            ]
+        );
+
+        $data = array(
+            "total"   => $qResults,
+            "results" => $results
+        );
+
+        // Return
+        return response()->json($data);
     }
 }

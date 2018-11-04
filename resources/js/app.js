@@ -16,6 +16,23 @@ window.Vue = require('vue');
  */
 
 // -------------------------------
+// INI: Search compontents
+
+Vue.component('search-bar', require('./components/SearchBar.vue'));
+Vue.component('search-view', require('./components/SearchView.vue'));
+
+// FIM: Search compontents
+// -------------------------------
+
+// -------------------------------
+// INI: Home compontents
+
+Vue.component('home-posts', require('./components/HomePosts.vue'));
+
+// END: Home compontents
+// -------------------------------
+
+// -------------------------------
 // INI: Profile components
 
 Vue.component('profile-preview', require('./components/Profile.vue'));

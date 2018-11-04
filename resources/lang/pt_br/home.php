@@ -17,5 +17,7 @@ return [
     'About'         => 'Sobre',
     'Experience'    => 'Experiência',
     'Education'     => 'Formação',
-    'Skills'        => 'Habilidades'
+    'Skills'        => 'Habilidades',
+    'Profile'       => 'Perfil',
+    'Back'          => 'Voltar'
 ];
