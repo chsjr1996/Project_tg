@@ -8,5 +8,6 @@
 {{--  Include navbar  --}}
 @include('layouts.navbar')
 
+<home-posts></home-posts>
 
 @endsection

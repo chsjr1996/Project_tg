@@ -6,7 +6,7 @@
             <div class="col-md-10 mt-5" v-bind:key="section.id" v-for="section in sections">
                 <div class="card mb-5">
 
-                    <div class="card-header bg-custom custom-css">
+                    <div :id=section.id class="card-header bg-custom custom-css">
                         <div class="row">
                             <div class="col-10">
                                 <h2 class="fa-2x m-0">
@@ -50,7 +50,7 @@
 
 <script>
     export default {
-        props: ['id','view'],
+        props: ['id'],
         mounted() {
             // Load sections and your data
             this.loadSections()
