@@ -10,8 +10,11 @@
                 <ul class="navbar-nav w-100">
                     <div class="w-100 position-relative">
                         <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" name="searchTerm" autocomplete="off"
-                            v-model="query"
+                            v-model="keyW"
                             @input="search"
+                            @keydown.up="up"
+                            @keydown.down="down"
+                            @keydown.enter="enter"
                             @keydown.esc="exitSearch"
                             @blur="exitSearch"
                         />
@@ -23,13 +26,25 @@
                                 Searching
                                 <i class="fa fa-spinner fa-spin"></i>
                             </li>
-                            <li v-bind:key="result.id"
-                                v-for="result in results"
-                            >
-                                <a class="dropdown-item" v-bind:href="'/profile/' + result.id">{{ result.name }}</a>
+
+                            <li v-bind:key="result.id" v-for="(result, index) in results">
+                                <a class="dropdown-item"
+                                    v-bind:href="'/profile/' + result.id"
+                                    v-bind:class="{'active': isActive(index)}"
+                                    v-bind:ref="'item_' + index"
+                                >
+                                    {{ result.name }}
+                                </a>
                             </li>
-                            <li v-if="total > 5" class="border-top">
-                                <a href="#" class="dropdown-item mt-2 text-info">More results ({{ total }})</a>
+
+                            <li class="border-top" v-if="total > 5">
+                                <a class="dropdown-item mt-2 text-info"
+                                    v-bind:href="'/profile/results/' + keyW"
+                                    v-bind:class="{'active': isActive(5)}"
+                                    ref="item_5"
+                                >
+                                    More results ({{ total }})
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -41,22 +56,27 @@
 
 <script>
     export default {
+        props: {
+            query: ""
+        },
         data() {
             return {
-                query: "",
+                keyW: this.query,
                 results: [],
                 total: 0,
                 timeout: null,
                 loading: false,
-                visible: false
+                visible: false,
+                current: 0
             }
         },
         methods: {
             search() {
                 // Enable loading tip
                 this.loading = true
-                this.total   = 0;
+                this.total   = 0
                 this.visible = true
+                this.current = 0
 
                 // Clear timeout
                 clearTimeout(this.timeout)
@@ -64,11 +84,11 @@
                 // Define 500ms timeout to prevent much requests
                 this.timeout = setTimeout(() => {
 
-                    // if query have letters
-                    if (this.query.length > 0) {
+                    // if keyW have letters
+                    if (this.keyW.length > 0) {
                     
                         // Request profiles
-                        window.axios.get('/profile/search/' + this.query)
+                        window.axios.get('/profile/search/' + this.keyW)
                         .then(response => {
                         
                             // Show list if have results
@@ -91,11 +111,52 @@
                     }
                 }, 500);
             },
+
+            // Control active item
+            up(e) {
+                e.preventDefault();
+                if (this.current > 0) {
+                    this.current--;   // Up item
+                } else if (this.total > 5) {
+                    this.current = 5; // Last item (if have more results)
+                } else {
+                    this.current = (this.results.length -1); // Last item (if doesn't have more results)
+                }
+            },
+
+            down(e) {
+                e.preventDefault();
+                if (this.total > 5 && this.current < 5) {
+                    this.current++;   // Down item (if have more results)
+                } else if (this.current < this.results.length - 1) {
+                    this.current++;   // Down item (if doesn't have more results)
+                } else {
+                    this.current = 0; // First item
+                }
+            },
+
+            enter() {
+                // console.log(this.$refs['item_' + this.current]);
+                // return false;
+                if (this.current != 5) {
+                    window.location.href = this.$refs['item_' + this.current][0].href;
+                } else {
+                    window.location.href = this.$refs.item_5.href;
+                }
+            },
+
+            // Verify item active
+            isActive(index) {
+                return index === this.current;
+            },
+
+            // Close result list
             exitSearch() {
                 setTimeout(() => {
                     this.results = [];
+                    this.total   = 0;
                     this.visible = false;
-                    this.query   = "";
+                    this.keyW   = "";
                 }, 200);
             }
         }
