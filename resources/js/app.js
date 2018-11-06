@@ -19,9 +19,16 @@ window.Vue = require('vue');
 // INI: Search compontents
 
 Vue.component('search-bar', require('./components/SearchBar.vue'));
-Vue.component('search-view', require('./components/SearchView.vue'));
 
 // FIM: Search compontents
+// -------------------------------
+
+// -------------------------------
+// INI: Generic compontents
+
+Vue.component('profile-grid', require('./components/ProfileGrid.vue'));
+
+// FIM: Generic compontents
 // -------------------------------
 
 // -------------------------------

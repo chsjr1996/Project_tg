@@ -8,6 +8,6 @@
 {{--  Include navbar  --}}
 @include('layouts.navbar')
 
-<search-view></search-view>
+<profile-grid :query="'{{ $query }}'"></profile-grid>
 
 @endsection

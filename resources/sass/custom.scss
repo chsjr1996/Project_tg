@@ -107,6 +107,27 @@
         max-width: 800px;
     }
 
+    /* ######### GRID PROFILES ######### */
+    &.box-grid {
+        .box-grid__frame {
+            > div {
+                min-height: 200px;
+            }
+        }
+        .adjust-img-profile {
+            &.img-grid {
+                width: 110px;
+                height: 110px;
+                margin: 10px auto 30px auto;
+            }
+            i {
+                &.icon-grid {
+                    font-size: 3.9em;
+                }
+            }
+        }
+    }
+
     /* Alerts */
     &.close-alert {
         cursor: pointer;
