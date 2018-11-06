@@ -50,6 +50,10 @@ Route::prefix('profile')->group(function() {
     // Search
     Route::get('search/{query}', 'ProfileController@search');
 
+    // Profile results
+    Route::get('results/{query}', 'ProfileController@grid');
+    Route::get('loadResults/{query}/{grid?}', 'ProfileController@search');
+
 });
 
 // Users Routes

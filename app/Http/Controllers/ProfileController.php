@@ -171,25 +171,43 @@ class ProfileController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function search($query)
+    public function search($query, $grid = null)
     {
+        // Fields to get
+        $fields   = ['id','name'];
 
+        if ($grid) $fields[] = 'user_photo';
+
+        // Search conditions
         $search   = [
             ['name','like','%' . $query . '%'],
-            ['name', 'not like', 'Admin']
+            ['name', 'not like', 'Admin'],
+            ['id', '!=', $this->user->id]
         ];
 
+        // Quantity results
         $qResults = User::where($search)->count();
 
-        $results  = User::where($search)
-        ->limit(5)
-        ->orderBy('name')
-        ->get(
-            [
-                'id',
-                'name'
-            ]
-        );
+        if ($grid) {
+            // No limit for grid view
+            $results       = User::where($search)->orderBy('name')->get($fields);
+
+            // Vars
+            $avatarsFolder = public_path() . '/avatars/';
+
+            // Verify img files
+            // TODO: To study a better technique for image validation
+            foreach ($results as $key => $value) {
+                if ($value->user_photo != null) {
+                    if (!file_exists($avatarsFolder . $value->user_photo)) {
+                        $value->user_photo = null;
+                    }
+                }
+            }
+        } else {
+            // Results limited in 5 rows for search bar
+            $results = User::where($search)->limit(5)->orderBy('name')->get($fields);
+        }
 
         $data = array(
             "total"   => $qResults,
@@ -198,5 +216,27 @@ class ProfileController extends Controller
 
         // Return
         return response()->json($data);
+    }
+
+    /**
+     * Show grid with profiles searched
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function grid($query)
+    {
+
+        $userData = array(
+            'name'  => $this->user->name,
+            'photo' => $this->user->user_photo
+        );
+
+        return view(
+            'SearchView', [
+                'userData' => json_decode(json_encode($userData)),
+                'view'     => 'grid',
+                'query'    => $query
+            ]
+        );
     }
 }
