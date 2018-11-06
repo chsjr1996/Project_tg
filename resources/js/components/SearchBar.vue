@@ -12,6 +12,7 @@
                         <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" name="searchTerm" autocomplete="off"
                             v-model="keyW"
                             @input="search"
+                            @click="search"
                             @keydown.up="up"
                             @keydown.down="down"
                             @keydown.enter="enter"
@@ -72,20 +73,21 @@
         },
         methods: {
             search() {
-                // Enable loading tip
-                this.loading = true
-                this.total   = 0
-                this.visible = true
-                this.current = 0
 
                 // Clear timeout
                 clearTimeout(this.timeout)
 
-                // Define 500ms timeout to prevent much requests
-                this.timeout = setTimeout(() => {
+                // if keyW have letters
+                if (this.keyW.length > 0) {
 
-                    // if keyW have letters
-                    if (this.keyW.length > 0) {
+                    // Enable loading tip
+                    this.loading = true
+                    this.total   = 0
+                    this.visible = true
+                    this.current = 0
+
+                    // Define 500ms timeout to prevent much requests
+                    this.timeout = setTimeout(() => {
                     
                         // Request profiles
                         window.axios.get('/profile/search/' + this.keyW)
@@ -104,12 +106,13 @@
                             }
 
                         });
-                    } else {
-                        this.results = [];
-                        this.total   = 0;
-                        this.visible = false;
-                    }
-                }, 500);
+
+                    }, 500);
+                } else {
+                    this.results = [];
+                    this.total   = 0;
+                    this.visible = false;
+                }
             },
 
             // Control active item
@@ -136,8 +139,10 @@
             },
 
             enter() {
-                // console.log(this.$refs['item_' + this.current]);
-                // return false;
+                
+                if (this.results.length === 0) return false;
+
+                // TODO: Unify redirection code below
                 if (this.current != 5) {
                     window.location.href = this.$refs['item_' + this.current][0].href;
                 } else {
@@ -156,7 +161,7 @@
                     this.results = [];
                     this.total   = 0;
                     this.visible = false;
-                    this.keyW   = "";
+                    this.keyW    = (this.query) ? this.query : '';
                 }, 200);
             }
         }
