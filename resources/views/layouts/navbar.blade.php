@@ -1,1 +1,1 @@
-<search-bar></search-bar>
+<search-bar :query="'{{ $query ?? '' }}'"></search-bar>
