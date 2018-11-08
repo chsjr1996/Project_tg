@@ -41,7 +41,8 @@
     /* Navbar */
     &.navbar {
         &.fix-position {
-        margin-left: 16.7%;
+            right: 0;
+            left: unset;
         }
     }
     
@@ -54,6 +55,11 @@
     &.fix-container {
         padding-top: 55px;
         padding-left: 15%;
+    }
+
+    /* Pagination */
+    &.pagination-centered {
+        justify-content: center;
     }
 
     /* ######### HOME ######### */
