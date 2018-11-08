@@ -55,11 +55,15 @@ class UsersTableSeeder extends Seeder
      */
     private function createUser()
     {
-        foreach(range(1,100) as $index) {
+        foreach(range(1,1000) as $index) {
             $data = [
                 'name'           => $this->faker->name,
                 'email'          => $this->faker->unique()->safeEmail,
-                'password'       => Hash::make('secret')
+                'password'       => Hash::make('secret'),
+                'about'          => $this->faker->text,
+                'experience'     => $this->faker->text,
+                'education'      => $this->faker->text,
+                'skills'         => $this->faker->text
             ];
 
             $user = User::create($data);
