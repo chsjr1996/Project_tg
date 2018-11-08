@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-md navbar-light navbar-laravel col-10 custom-css fix-position fixed-top">
+    <nav class="navbar navbar-expand-md navbar-light navbar-laravel col-lg-10 col-md-9 col-8 custom-css fix-position fixed-top">
         <div class="container">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -20,7 +20,7 @@
                             @blur="exitSearch"
                         />
                         <ul class="dropdown-menu w-100"
-                            v-bind:class="{'show': visible}"
+                            :class="{'show': visible}"
                             v-if="results"
                         >
                             <li v-if="loading" class="dropdown-item">
@@ -28,11 +28,11 @@
                                 <i class="fa fa-spinner fa-spin"></i>
                             </li>
 
-                            <li v-bind:key="result.id" v-for="(result, index) in results">
+                            <li :key="result.id" v-for="(result, index) in results">
                                 <a class="dropdown-item"
-                                    v-bind:href="'/profile/' + result.id"
-                                    v-bind:class="{'active': isActive(index)}"
-                                    v-bind:ref="'item_' + index"
+                                    :href="'/profile/' + result.id"
+                                    :class="{'active': isActive(index)}"
+                                    :ref="'item_' + index"
                                 >
                                     {{ result.name }}
                                 </a>
@@ -40,8 +40,8 @@
 
                             <li class="border-top" v-if="total > 5">
                                 <a class="dropdown-item mt-2 text-info"
-                                    v-bind:href="'/profile/results/' + keyW"
-                                    v-bind:class="{'active': isActive(5)}"
+                                    :href="'/profile/results/' + pureKeyW"
+                                    :class="{'active': isActive(5)}"
                                     ref="item_5"
                                 >
                                     More results ({{ total }})
@@ -63,6 +63,7 @@
         data() {
             return {
                 keyW: this.query,
+                pureKeyW: "",
                 results: [],
                 total: 0,
                 timeout: null,
@@ -74,11 +75,18 @@
         methods: {
             search() {
 
+                // Validation
+                let re = /[^A-Z0-9ÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ]/gi
+                
+                // this.$set(this, 'keyW', this.keyW.replace(re, ''))
+                
+                this.pureKeyW = this.keyW.replace(re, '');
+
                 // Clear timeout
                 clearTimeout(this.timeout)
 
                 // if keyW have letters
-                if (this.keyW.length > 0) {
+                if (this.pureKeyW.length > 0) {
 
                     // Enable loading tip
                     this.loading = true
@@ -90,7 +98,7 @@
                     this.timeout = setTimeout(() => {
                     
                         // Request profiles
-                        window.axios.get('/profile/search/' + this.keyW)
+                        window.axios.get('/profile/search/' + this.pureKeyW)
                         .then(response => {
                         
                             // Show list if have results
