@@ -27,6 +27,7 @@ Vue.component('search-bar', require('./components/SearchBar.vue'));
 // INI: Generic compontents
 
 Vue.component('profile-grid', require('./components/ProfileGrid.vue'));
+Vue.component('pagination', require('./components/Pagination.vue'));
 
 // FIM: Generic compontents
 // -------------------------------

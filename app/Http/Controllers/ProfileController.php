@@ -190,7 +190,7 @@ class ProfileController extends Controller
 
         if ($grid) {
             // No limit for grid view
-            $results       = User::where($search)->orderBy('name')->get($fields);
+            $results       = User::where($search)->orderBy('name')->paginate(12, $fields);
 
             // Vars
             $avatarsFolder = public_path() . '/avatars/';
@@ -204,15 +204,18 @@ class ProfileController extends Controller
                     }
                 }
             }
+
+            $data = array("results" => $results);
+            
         } else {
             // Results limited in 5 rows for search bar
             $results = User::where($search)->limit(5)->orderBy('name')->get($fields);
-        }
 
-        $data = array(
-            "total"   => $qResults,
-            "results" => $results
-        );
+            $data = array(
+                "total"   => $qResults,
+                "results" => $results
+            );
+        }
 
         // Return
         return response()->json($data);
