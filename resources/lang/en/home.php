@@ -19,5 +19,6 @@ return [
     'Education'     => 'Education',
     'Skills'        => 'Skills',
     'Profile'       => 'Profile',
-    'Back'          => 'Back'
+    'Back'          => 'Back',
+    'Home'          => 'Home'
 ];

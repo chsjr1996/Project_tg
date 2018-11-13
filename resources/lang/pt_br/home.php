@@ -19,5 +19,6 @@ return [
     'Education'     => 'Formação',
     'Skills'        => 'Habilidades',
     'Profile'       => 'Perfil',
-    'Back'          => 'Voltar'
+    'Back'          => 'Voltar',
+    'Home'          => 'Início'
 ];

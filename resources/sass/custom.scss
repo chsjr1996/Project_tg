@@ -158,6 +158,18 @@
 
         box-shadow: 1px 1px 20px 0 grey;
         border-radius: 5px;
+
+        @media screen and (max-width: 425px) {
+            right: 35px;
+            bottom: 65px;
+        }
+
+        @media screen and (max-width: 320px) {
+            right: 5px;
+            bottom: 65px;
+
+            width: 310px;
+        }
     }
 
     &.chat-button {

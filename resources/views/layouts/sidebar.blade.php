@@ -87,9 +87,15 @@
                                 <i class="fa fa-user-alt text-white"></i>
                             </div>
                             <div class="col-9">
-                                <a href="/profile" class="text-white">
-                                    {{ __('home.Profile') }}
-                                </a>
+                                @if (Auth::user()->id == $userData->id)
+                                    <a href="/profile" class="text-white">
+                                        {{ __('home.Profile') }}
+                                    </a>
+                                @else
+                                    <a href="/profile/{{ $userData->id }}" class="text-white">
+                                        {{ __('home.Profile') }}
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     @endif
@@ -145,10 +151,10 @@
                         {{-- Back to home --}}
                         <div class="row mb-2">
                             <div class="col-3 pl-4 text-center">
-                                <i class="fa fa-arrow-left text-white"></i>
+                                <i class="fa fa-home text-white"></i>
                             </div>
                             <div class="col-9">
-                                <a class="text-white" href="/home">{{ __('home.Back') }}</a>
+                                <a class="text-white" href="/home">{{ __('home.Home') }}</a>
                             </div>
                         </div>
                     @endif

@@ -21,7 +21,7 @@
                 <div class="card-body col-8 p-0 pt-3 pl-3 pr-3">
                     <div class="card border-dark mb-3">
                         <div class="card-header">
-                            <p class="m-0 float-left">{{ message.user_name }}</p>
+                            <p class="m-0 float-left">{{ message.user_name | nameTruncate }}</p>
                             <p class="m-0 float-right">
                                 <i class="fa fa-clock" :title="message.created_at.date | formatDate"></i>
                             </p>
@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="col-12" v-else>
-            <div class="card-body col-6 m-auto">
+            <div class="card-body m-auto">
                 <div class="card border-dark">
                     <div class="card-header text-dark">
                         <p class="m-0">No messages sent or received, be the first to send!!!</p>
@@ -88,6 +88,14 @@
                 text      += ' (' + value.substr(11, 5) + ') '
 
                 return text
+            },
+            nameTruncate: function (value) {
+
+                if (!value) return ''
+
+                if (value.length > 12) value = value.substr(0, 12) + '...'
+
+                return value
             }
         },
         methods: {
