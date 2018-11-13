@@ -1,4 +1,4 @@
-<div class="col-lg-2 col-md-3 col-12 px-1 bg-dark float-left fixed-top custom-css full-sidebar" id="sticky-sidebar">
+<div class="col-lg-2 col-md-3 col-12 d-none d-sm-block px-1 bg-dark float-left fixed-top custom-css full-sidebar" id="sticky-sidebar">
     <div class="py-2 sticky-top">
         <div class="nav flex-column">
 

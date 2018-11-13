@@ -1,5 +1,5 @@
 <template>
-    <div class="container fix-container box-grid order-8 custom-css">
+    <div class="container fix-container box-grid custom-css">
         <div class="row justify-content-center">
 
             <div class="col-md-10 mt-5 mb-5">
@@ -9,7 +9,7 @@
                     </div>
 
                     <div class="card-body d-flex align-content-start flex-wrap">
-                        <div class="col-xl-3 col-md-4 col-12 float-left p-2 box-grid__frame"
+                        <div class="col-12 col-md-4 col-xl-3 float-left p-2 box-grid__frame"
                             :key="result.id"
                             v-for="result in results"
                         >

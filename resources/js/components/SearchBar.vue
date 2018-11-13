@@ -1,56 +1,50 @@
 <template>
-    <nav class="navbar navbar-expand-md navbar-light navbar-laravel col-lg-10 col-md-9 col-8 custom-css fix-position fixed-top">
+    <nav class="navbar navbar-expand-md navbar-light navbar-laravel col-12 col-md-9 col-lg-10 custom-css fix-position fixed-top">
         <div class="container">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <!-- Center Of Navbar -->
+            <ul class="navbar-nav w-100">
+                <div class="w-100 position-relative">
+                    <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" name="searchTerm" autocomplete="off"
+                        v-model="keyW"
+                        @input="search"
+                        @click="search"
+                        @keydown.up="up"
+                        @keydown.down="down"
+                        @keydown.enter="enter"
+                        @keydown.esc="exitSearch"
+                        @blur="exitSearch"
+                    />
+                    <ul class="dropdown-menu w-100"
+                        :class="{'show': visible}"
+                        v-if="results"
+                    >
+                        <li v-if="loading" class="dropdown-item">
+                            Searching
+                            <i class="fa fa-spinner fa-spin"></i>
+                        </li>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!-- Center Of Navbar -->
-                <ul class="navbar-nav w-100">
-                    <div class="w-100 position-relative">
-                        <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" name="searchTerm" autocomplete="off"
-                            v-model="keyW"
-                            @input="search"
-                            @click="search"
-                            @keydown.up="up"
-                            @keydown.down="down"
-                            @keydown.enter="enter"
-                            @keydown.esc="exitSearch"
-                            @blur="exitSearch"
-                        />
-                        <ul class="dropdown-menu w-100"
-                            :class="{'show': visible}"
-                            v-if="results"
-                        >
-                            <li v-if="loading" class="dropdown-item">
-                                Searching
-                                <i class="fa fa-spinner fa-spin"></i>
-                            </li>
+                        <li :key="result.id" v-for="(result, index) in results">
+                            <a class="dropdown-item"
+                                :href="'/profile/' + result.id"
+                                :class="{'active': isActive(index)}"
+                                :ref="'item_' + index"
+                            >
+                                {{ result.name }}
+                            </a>
+                        </li>
 
-                            <li :key="result.id" v-for="(result, index) in results">
-                                <a class="dropdown-item"
-                                    :href="'/profile/' + result.id"
-                                    :class="{'active': isActive(index)}"
-                                    :ref="'item_' + index"
-                                >
-                                    {{ result.name }}
-                                </a>
-                            </li>
-
-                            <li class="border-top" v-if="total > 5">
-                                <a class="dropdown-item mt-2 text-info"
-                                    :href="'/profile/results/' + pureKeyW"
-                                    :class="{'active': isActive(5)}"
-                                    ref="item_5"
-                                >
-                                    More results ({{ total }})
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </ul>
-            </div>
+                        <li class="border-top" v-if="total > 5">
+                            <a class="dropdown-item mt-2 text-info"
+                                :href="'/profile/results/' + pureKeyW"
+                                :class="{'active': isActive(5)}"
+                                ref="item_5"
+                            >
+                                More results ({{ total }})
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </ul>
         </div>
     </nav>
 </template>
