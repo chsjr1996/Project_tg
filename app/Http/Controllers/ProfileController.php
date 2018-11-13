@@ -230,6 +230,7 @@ class ProfileController extends Controller
     {
 
         $userData = array(
+            'id'    => $this->user->id,
             'name'  => $this->user->name,
             'photo' => $this->user->user_photo
         );
