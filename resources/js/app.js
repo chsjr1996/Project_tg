@@ -49,6 +49,16 @@ Vue.component('profile-editor', require('./components/ProfileEditor.vue'));
 // END: Profile components
 // -------------------------------
 
+// -------------------------------
+// INI: Chat components
+
+Vue.component('chat', require('./components/Chat.vue'));
+Vue.component('chat-screen', require('./components/ChatScreen.vue'));
+Vue.component('chat-button', require("./components/ChatButton.vue"));
+
+// END: Chat components
+// -------------------------------
+
 const app = new Vue({
     el: '#app'
 });
