@@ -56,6 +56,19 @@ Route::prefix('profile')->group(function() {
 
 });
 
+// Message Routes
+Route::prefix('chat')->group(function() {
+
+    // Render chat view
+    Route::get('/profile/{id}', 'ChatsController@index');
+
+    // Fetch all messages
+    Route::get('/messages/{id}', 'ChatsController@fetchMessages');
+
+    // Send message
+    Route::post('/messages', 'ChatsController@sendMessage');
+});
+
 // Users Routes
 Route::get('user/setup', 'UserController@setupAccount');
 Route::post('user/setup', 'UserController@updateAccount');
