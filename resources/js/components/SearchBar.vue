@@ -34,7 +34,7 @@
                         </li>
 
                         <li class="border-top" v-if="total > 5">
-                            <a class="dropdown-item mt-2 text-info"
+                            <a class="dropdown-item mt-2"
                                 :href="'/profile/results/' + pureKeyW"
                                 :class="{'active': isActive(5)}"
                                 ref="item_5"
