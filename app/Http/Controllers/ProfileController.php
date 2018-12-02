@@ -189,7 +189,9 @@ class ProfileController extends Controller
         // Search by skills
         $searchSkills = array();
 
-        $skills       = Skills::where('title', 'like', '%' . $query . '%')->pluck('title')->toArray();
+        $skills       = Skills::where('title', 'like', $query)
+                                ->pluck('title')
+                                ->toArray();
 
         if ($skills) {
             $strSkills    = implode("|", $skills);
