@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Skills;
 use App\User;
 
 class ProfileController extends Controller
@@ -185,12 +186,25 @@ class ProfileController extends Controller
             ['id', '!=', $this->user->id]
         ];
 
+        // Search by skills
+        $searchSkills = array();
+
+        $skills       = Skills::where('title', 'like', '%' . $query . '%')->pluck('title')->toArray();
+
+        if ($skills) {
+            $strSkills    = implode("|", $skills);
+            $searchSkills = [['skills', 'REGEXP', $strSkills]];
+        }
+
         // Quantity results
         $qResults = User::where($search)->count();
 
         if ($grid) {
             // No limit for grid view
-            $results       = User::where($search)->orderBy('name')->paginate(12, $fields);
+            $results       = User::where($search)
+                            ->orWhere($searchSkills)
+                            ->orderBy('name')
+                            ->paginate(12, $fields);
 
             // Vars
             $avatarsFolder = public_path() . '/avatars/';
@@ -209,7 +223,11 @@ class ProfileController extends Controller
             
         } else {
             // Results limited in 5 rows for search bar
-            $results = User::where($search)->limit(5)->orderBy('name')->get($fields);
+            $results = User::where($search)
+                            ->orWhere($searchSkills)
+                            ->limit(5)
+                            ->orderBy('name')
+                            ->get($fields);
 
             $data = array(
                 "total"   => $qResults,

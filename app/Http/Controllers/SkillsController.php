@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Skills;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use App\UsersTypeR;
-use App\User;
-use Illuminate\Support\Facades\Redirect;
 
-class HomeController extends Controller
+class SkillsController extends Controller
 {
+
     /**
      * @var array
      */
@@ -24,7 +24,12 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
+            
+            // 
             $this->user = Auth::user();
+
+            // Active data
+            $this->setData();
 
             return $next($request);
         });
@@ -54,7 +59,7 @@ class HomeController extends Controller
         // Verify user type (save in session in first time)
         if (!Session::get('user_type')) {
             $userType = UsersTypeR::where('user_id', '=', $this->user->id)->first();
-
+            
             Session::put('user_type', $userType->user_type_id);
 
             unset($userType);
@@ -75,21 +80,50 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
+     * View: Create a new skill
+     * 
+     * @return \Iluminate\Http\Response
      */
-    public function index()
+    public function new()
     {
-        // Active setData
-        $this->setData();
+        return view('admin.createSkills',['userData' => $this->data['userData']]);
+    }
 
-        // Render view
+    /**
+     * Create a new skill
+     */
+    public function create(Request $request)
+    {
+
+        // TODO: if possible, pass this method do validator class
+        // Verify if skill already exists
+        $ctrl = Skills::where('title', '=', $request->title)->first();
+        
+        // TODO: Improve return if already exists skills
+        if (!$ctrl) {
+            // Create a new skill
+            Skills::create([
+                'title' => $request->title
+            ]);
+        }
+
+        return view('admin.createSkills',['userData' => $this->data['userData']]);
+    }
+
+    /**
+     * Show skills list
+     * 
+     * @return \Iluminate\Http\Response
+     */
+    public function list()
+    {
+        $skills = DB::table('skills')->paginate(10);
+
         return view(
-            'home', [
+            'admin.skills',
+            [
                 'userData' => $this->data['userData'],
-                'language' => app()->getLocale(),
-                'view'     => 'home'
+                'list'     => $skills
             ]
         );
     }
