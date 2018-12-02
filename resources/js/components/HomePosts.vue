@@ -1,7 +1,7 @@
 <template>
     <div class="container fix-container custom-css post-card">
         <div class="row justify-content-center">
-            <div class="col-md-12 mt-3">
+            <div class="col-8 col-md-10 col-lg-12 mt-3">
                 <div class="card mb-5" :class="focusEditor">
                     <div class="card-header bg-custom">
                         <div class="row">

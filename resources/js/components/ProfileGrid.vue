@@ -9,7 +9,7 @@
                     </div>
 
                     <div class="card-body d-flex align-content-start flex-wrap">
-                        <div class="col-12 col-md-4 col-xl-3 float-left p-2 box-grid__frame"
+                        <div class="col-12 col-md-6 col-xl-3 float-left p-2 box-grid__frame"
                             :key="result.id"
                             v-for="result in results"
                         >
