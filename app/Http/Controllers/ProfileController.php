@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+use App\Comments;
 use App\Skills;
 use App\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
@@ -24,7 +26,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function viewProfile($id = null)
@@ -60,7 +62,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function loadSections($id = null)
@@ -106,13 +108,26 @@ class ProfileController extends Controller
             ]
         );
 
+        // Comments in user's profile
+        $comment      = DB::table('comments')
+                        ->where('profile_id', $id)
+                        ->join('users', 'comments.user_id', '=', 'users.id')
+                        ->get(
+                          [
+                            'users.id',
+                            'users.name',
+                            'users.user_photo',
+                            'comments.comment'
+                          ]
+                        );
+
         // Content
         $arrContent   = array(
             0 => $user[0]->about,
             1 => $user[0]->experience,
             2 => $user[0]->education,
             3 => $user[0]->skills,
-            4 => ''
+            4 => $comment
         );
 
         // Populate arrSection
@@ -139,29 +154,37 @@ class ProfileController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function updateSection(Request $request) {
-        
+
         // Get current user (active)
         $user_id = $this->user->id;
-        
+
         // Get model data
-        $user    = User::findOrFail($user_id);  
+        if ($request->id != 4) {
+            $user    = User::findOrFail($user_id);
 
-        // Sections
-        $arrSection = array(
-            0 => 'about',
-            1 => 'experience',
-            2 => 'education',
-            3 => 'skills'
-        );
+            // Sections
+            $arrSection = array(
+                0 => 'about',
+                1 => 'experience',
+                2 => 'education',
+                3 => 'skills'
+            );
 
-        // Update specific section
-        $field        = $arrSection[$request->id];
-        $user->$field = $request->content;
+            // Update specific section
+            $field        = $arrSection[$request->id];
+            $user->$field = $request->content;
 
-        // Save data
-        $user->save();
+            // Save data
+            $user->save();
 
-        unset($user, $arrSection, $field);
+            unset($user, $arrSection, $field);
+        } else {
+              Comments::create([
+                  'user_id'    => $user_id,
+                  'profile_id' => $request->profile_id,
+                  'comment'    => $request->content
+              ]);
+        }
 
         // Return
         return response()->json('ok');
@@ -169,7 +192,7 @@ class ProfileController extends Controller
 
     /**
      * Search profiles
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function search($query, $grid = null)
@@ -222,7 +245,7 @@ class ProfileController extends Controller
             }
 
             $data = array("results" => $results);
-            
+
         } else {
             // Results limited in 5 rows for search bar
             $results = User::where($search)
@@ -243,7 +266,7 @@ class ProfileController extends Controller
 
     /**
      * Show grid with profiles searched
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function grid($query)

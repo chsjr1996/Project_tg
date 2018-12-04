@@ -38,6 +38,7 @@
                 id: "",
                 name: "",
                 content: '',
+                profile_id: '',
                 customToolbar: [
                     ['bold', 'italic', 'underline'],
                     [{ 'list': 'ordered' }, {'list': 'bullet'}]
@@ -45,10 +46,11 @@
             };
         },
         methods: {
-            setProps: function (id, name, content) {
+            setProps: function (id, name, content, profile_id) {
                 this.id          = id
                 this.name        = name
                 this.content     = content
+                this.profile_id  = profile_id
             },
             formSubmit(e) {
                 e.preventDefault();
@@ -57,7 +59,8 @@
 
                 window.axios.put('/profile/update/section', {
                     id: this.id,
-                    content: this.content
+                    content: this.content,
+                    profile_id: this.profile_id
                 })
                 .then(function (response) {
                     // Refresh sections

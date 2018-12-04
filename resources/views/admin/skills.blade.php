@@ -35,7 +35,7 @@
                             {{ session('success') }}
                         </div>
                     @endif
-                    
+
                     <div class="row">
                         @if (count($list) > 0)
                             <table class="table">

@@ -36,7 +36,7 @@ class AdminController extends Controller
 
     /**
      * Set user data
-     * 
+     *
      * @return void
      */
     private function setData()
@@ -45,7 +45,7 @@ class AdminController extends Controller
         // Verify user type (save in session in first time)
         if (!Session::get('user_type')) {
             $userType = UsersTypeR::where('user_id', '=', $this->user->id)->first();
-            
+
             Session::put('user_type', $userType->user_type_id);
 
             unset($userType);
@@ -68,12 +68,12 @@ class AdminController extends Controller
      */
     public function index()
     {
-        
+
     }
 
     /**
      * Show users list
-     * 
+     *
      * @return \Iluminate\Http\Response
      */
     public function listUsers()
